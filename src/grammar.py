@@ -1,9 +1,9 @@
 class Grammar:
-    def __init__(self):
-        self.non_terminals = set()
-        self.terminals = set()
-        self.productions = {} # The format is {"A", [["a", "B", "b"], ["c"]]}
-        self.start_symbol = None
+    def __init__(self, _non_terminals = set(), _terminals = set(), _productions = {}, _start_symbol = None):
+        self.non_terminals = _non_terminals
+        self.terminals = _terminals
+        self.productions = _productions # The format is {"A", [["a", "B", "b"], ["c"]]}
+        self.start_symbol = _start_symbol
 
     def parse(self, grammar_string):
         self.non_terminals = set()
@@ -53,6 +53,19 @@ class Grammar:
                     body.append(char)
                 self.productions[lhs].append(body)
         return self.non_terminals, self.terminals, self.productions, self.start_symbol
+    
+    def __str__(self):
+        lines = []
+        order = []
+        if self.start_symbol:
+            order.append(self.start_symbol)
+        order += sorted(self.non_terminals - {self.start_symbol} if self.start_symbol else self.non_terminals)
+        for var in order:
+            prods = self.productions.get(var, [])
+            if prods:
+                rhs = " | ".join("".join(p) for p in prods)
+                lines.append(f"  {var} -> {rhs}")
+        return "\n".join(lines)
 
 
 if __name__ == "__main__":
@@ -63,4 +76,5 @@ if __name__ == "__main__":
     """
 
     g = Grammar()
-    print(g.parse(grammar_string))
+    g.parse(grammar_string)
+    print(grammar_string)
