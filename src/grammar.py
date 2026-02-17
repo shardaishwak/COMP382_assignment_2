@@ -52,6 +52,11 @@ class Grammar:
                         self.terminals.add(char)
                     body.append(char)
                 self.productions[lhs].append(body)
+
+        # TODO: check that all non-terminals are defined inside production
+        for var in self.non_terminals:
+            if var not in self.productions:
+                raise Exception(f"Non-terminal {var} is not defined in the grammar.")
         return self.non_terminals, self.terminals, self.productions, self.start_symbol
     
     def __str__(self):
@@ -70,9 +75,8 @@ class Grammar:
 
 if __name__ == "__main__":
     grammar_string = """
-    S -> aBa | CD
-    B -> c
-    P -> r | s
+    S -> aBa
+    B -> b
     """
 
     g = Grammar()
