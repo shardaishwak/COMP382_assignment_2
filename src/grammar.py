@@ -1,11 +1,13 @@
 class Grammar:
     def __init__(self, _non_terminals = set(), _terminals = set(), _productions = {}, _start_symbol = None):
+        """Create a grammar with the inputed sets and start symbol"""
         self.non_terminals = _non_terminals
         self.terminals = _terminals
         self.productions = _productions # The format is {"A", [["a", "B", "b"], ["c"]]}
         self.start_symbol = _start_symbol
 
     def parse(self, grammar_string):
+        """Parse a grammar from a string"""
         self.non_terminals = set()
         self.terminals = set()
         self.productions = {} # The format is {"A", [["a", "B", "b"], ["c"]]}
@@ -59,6 +61,22 @@ class Grammar:
                 raise Exception(f"Non-terminal {var} is not defined in the grammar.")
         return self.non_terminals, self.terminals, self.productions, self.start_symbol
     
+    def valid_cnf(self):
+        """
+        Returns True iff every product is in Chomsky normal form
+
+        A->a (case 1: Single Terminal)
+
+        A->BC (case 2: Two non-terminals)
+        """
+        for products in self.productions.values():
+            for x in products:
+                if len(x) == 1 and x[0] in self.terminals: #first case producte has lenght 1 and the one symbol is a terminal
+                    continue
+                if len(x) ==2 and x[0] in self.non_terminals and x[1] in self.non_terminals: #second case is two nonterminals A->BC
+                    continue
+                return False
+        return True #true iff EVERY product is CNF form like A->a (case 1) or A->BC (case 2)
     def __str__(self):
         lines = []
         order = []
