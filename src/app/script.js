@@ -1,8 +1,11 @@
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+
 function convert() {
-    const input = document.getElementById('input').value;
-    const output = document.getElementById('output');
+
     //output.value = input;
-    const output_value = window.convertCGFToCNF(input);
+    const output_value = window.convertCGFToCNF(input.value);
     output.value = output_value;
 
     // subtle flash to signal update
@@ -18,3 +21,5 @@ document.getElementById('input').addEventListener('keydown', e => {
         output.value = 'Please enter a grammar to convert.';
     }
 });
+
+input.placeholder = "Type something here (example):\nS -> ASA | aB\nA -> B | S\nB -> b | ε";

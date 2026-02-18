@@ -15,7 +15,7 @@
     <!-- This script tag bootstraps PyScript -->
     <script type="module" src="https://pyscript.net/releases/2024.2.1/core.js"></script>
     <!-- Import Relevant Window Python Code -->
-    <script type="py" src="../window.py"
+    <script type="py" src="./window.py"
         config='{"files": {"../grammar.py": "./grammar.py", "../CGFToCNFConverter.py": "./CGFToCNFConverter.py"}}'></script>
 
 
@@ -30,10 +30,7 @@
 
     <div class="card">
         <p class="field-label">Input grammar</p>
-        <textarea id="input" placeholder="Type something here (example):
-            S -> ASA | aB
-            A -> B | S
-            B -> b | ε"></textarea>
+        <textarea id="input"></textarea>
 
         <div class="divider">
             <div class="divider-line"></div>
