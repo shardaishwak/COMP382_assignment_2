@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grammar Converter</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- PyScript CSS -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.2.1/core.css">
+    <!-- This script tag bootstraps PyScript -->
+    <script type="module" src="https://pyscript.net/releases/2024.2.1/core.js"></script>
+    <!-- Import Relevant Window Python Code -->
+    <script type="py" src="../window.py"
+        config='{"files": {"../grammar.py": "./grammar.py", "../CGFToCNFConverter.py": "./CGFToCNFConverter.py"}}'></script>
+
+
+</head>
+
+<body>
+
+    <header>
+        <h1>CFG to CNF Converter </h1>
+
+    </header>
+
+    <div class="card">
+        <p class="field-label">Input grammar</p>
+        <textarea id="input" placeholder="Type something here (example):
+            S -> ASA | aB
+            A -> B | S
+            B -> b | ε"></textarea>
+
+        <div class="divider">
+            <div class="divider-line"></div>
+            <button onclick="convert()">Convert</button>
+            <div class="divider-line"></div>
+        </div>
+
+        <div class="output-field">
+            <p class="field-label">Output</p>
+            <textarea id="output" readonly placeholder="Result will appear here"></textarea>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
