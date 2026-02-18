@@ -13,9 +13,9 @@ class Grammar:
         self.productions = {} # The format is {"A", [["a", "B", "b"], ["c"]]}
         self.start_symbol = None
 
-        # TODO: Read the lines
+        # Read the lines
         lines = grammar_string.strip().split("\n")
-        # TODO: Consider the non-terminal names from the left side
+        # Consider the non-terminal names from the left side
         non_terminals_names = set()
         for line in lines:
             line = line.strip()
@@ -24,7 +24,7 @@ class Grammar:
             lhs, _ = line.split("->", 1)
             non_terminals_names.add(lhs.strip())
 
-        # TODO: Build productions, terminals, non-terminals
+        # Build productions, terminals, non-terminals
         for line in lines:
             line = line.strip()
             if not line or "->" not in line:
@@ -55,28 +55,35 @@ class Grammar:
                     body.append(char)
                 self.productions[lhs].append(body)
 
-        # TODO: check that all non-terminals are defined inside production
+        # check that all non-terminals are defined inside production
         for var in self.non_terminals:
             if var not in self.productions:
                 raise Exception(f"Non-terminal {var} is not defined in the grammar.")
         return self.non_terminals, self.terminals, self.productions, self.start_symbol
     
-    def valid_cnf(self):
+    def valid_cnf(self, verbose = False):
         """
         Returns True iff every product is in Chomsky normal form
-
-        A->a (case 1: Single Terminal)
-
-        A->BC (case 2: Two non-terminals)
         """
-        for products in self.productions.values():
+        issues = []
+        for var, products in self.productions.items():
             for x in products:
-                if len(x) == 1 and x[0] in self.terminals: #first case producte has lenght 1 and the one symbol is a terminal
-                    continue
-                if len(x) ==2 and x[0] in self.non_terminals and x[1] in self.non_terminals: #second case is two nonterminals A->BC
-                    continue
-                return False
-        return True #true iff EVERY product is CNF form like A->a (case 1) or A->BC (case 2)
+                if x == ["ε"] and var != self.start_symbol:
+                    issues.append(f" {var} -> ε (only start may have ε)")
+                if len(x) == 1 and x[0] not in self.terminals: #first case producte has lenght 1 and the one symbol is a terminal
+                    issues.append(f" {var} -> {x[0]} (must be a terminal)")
+                if len(x) == 2:
+                    for sym in x:
+                        if sym not in self.non_terminals:
+                            issues.append(f" {var} -> {''.join(x)} (RHS must be non-terminals)")
+                        if sym == self.start_symbol:
+                            issues.append(f" {var} -> {''.join(x)} (too many symbols)")
+
+        if verbose:
+            for issue in issues:
+                print(issue)
+        return len(issues) == 0 #true iff EVERY case is met
+    
     def __str__(self):
         lines = []
         order = []
@@ -93,10 +100,11 @@ class Grammar:
 
 if __name__ == "__main__":
     grammar_string = """
-    S -> aBa
+    S -> B
     B -> b
     """
 
     g = Grammar()
     g.parse(grammar_string)
+    print(g.valid_cnf(verbose=True))
     print(grammar_string)
