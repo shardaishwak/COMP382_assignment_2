@@ -9,10 +9,15 @@ class CGFToCNFConverter(Grammar):
         # Call step 3
         self._step_remove_unit()
         # Call step 4
+        self._step_replace_terminals()
+        # Call step 5
+        self._step_break_down_products_to_binary()
+
         return self
 
-    # Step 0: Add new start variable S0 -> S
+    
     def _step_new_start(self):
+        """Step 1: Add new start variable S0 -> S"""
         old_start = self.start_symbol
         new_start = old_start + "0"
         while new_start in self.non_terminals:
@@ -23,8 +28,9 @@ class CGFToCNFConverter(Grammar):
         self.productions[new_start] = [[old_start]]
         self.start_symbol = new_start
 
-    # Step 2: Remove epsilon rule
+    
     def _step_remove_epsilon(self):
+        """Step 2: Remove epsilon rule"""
         nullable = set()
         changed = True
         while changed:
@@ -57,8 +63,9 @@ class CGFToCNFConverter(Grammar):
             self.productions[var] = [p for p in new_prods if p != ["ε"] or var == self.start_symbol]
 
 
-    # Step 3: Remove unit rules (similar to a transition rule) (A -> B)
+    
     def _step_remove_unit(self):
+        """Step 3: Remove unit rules (similar to a transition rule) (A -> B)"""
         # Gonna check for transitions from one variable to another
         changed = True
         while changed:
@@ -77,6 +84,93 @@ class CGFToCNFConverter(Grammar):
                         if prod not in new_prods:
                             new_prods.append(prod)
                 self.productions[var] = new_prods
+
+    def _step_replace_terminals(self):
+        """Step 4: replace terminals when RHS Lenght > 2 and replace them with a variable """
+        #For example, A->aB
+        #becomes 
+        #A-> X_aB        ,and
+        #X_a -> a
+        
+        terminals = {}
+        x_index = 1
+        for x in list(self.non_terminals):
+            new_prods = []
+            for prod in self.productions.get(x, []): #get each one
+                #if the prods are <=1 add them
+                if len(prod) <= 1:
+
+                    new_prods.append(prod)
+                    
+                    continue
+                    
+                new_prod = []
+                for symbol in prod:
+                    if symbol in self.terminals: 
+                        if symbol not in terminals:
+                            #we havent seen it yet so create a new non-terminal for this terminal
+                            new_var = f"X{x_index}" #name like X1,X2....
+                           
+                            while new_var in self.non_terminals: #if X1,X2 .. are taken etc
+                                x_index +=1
+                                new_var = f"X{x_index}" #name like X1,X2....
+
+                            self.non_terminals.add(new_var)
+                            self.productions[new_var] = [[symbol]]
+                            terminals[symbol] = new_var
+
+                        new_prod.append(terminals[symbol])
+                    else:
+                        new_prod.append(symbol)
+                new_prods.append(new_prod)
+            self.productions[x] = new_prods        
+
+
+
+    def _step_break_down_products_to_binary(self):
+        """Step 5:breaks down productions into binary(2) ones"""
+        #For example A->BCD is invalid so we much break it down 
+        #WE can do
+        #A ->BC1
+        #C1 ->CD
+        #valid  ✓
+        x_index = 1 #for naming non-terminals
+
+        for x in list(self.non_terminals):
+            new_prods = []
+            for prod in self.productions.get(x, []): 
+                if len(prod) <= 2: #we chilling add it
+                    new_prods.append(prod)
+                    continue
+
+                #A ->B1 B2 B3 B4 ....... Bn
+                #A -> B1 C1 , C1 -> B2 C2. repeating, the last rule will have two non-terminals Cn-2 -> Bn-1 Bn
+
+                current_var = x #left hand side
+                for i in range(len(prod) -2):
+                    new_var = f"C{x_index}" #like step 4
+                    while new_var in self.non_terminals: 
+                        x_index +=1
+                        new_var = f"C{x_index}" 
+
+                    self.non_terminals.add(new_var)
+                    if current_var == x: # if this is the first time update the original rule
+                        new_prods.append([prod[i], new_var]) 
+                    else: # else make a new rule
+                        self.productions[current_var] = [[prod[i], new_var]]
+
+                    current_var = new_var #move to next
+                    x_index +=1
+                    
+            #cover the last 2 operations no in  for i in range(len(prod) -2)
+                self.productions[current_var] = [[prod[-2], prod[-1]]]
+
+            self.productions[x] = new_prods
+
+
+
+
+                
 
 
 
