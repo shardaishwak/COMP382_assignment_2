@@ -1,4 +1,10 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+}
 
 :root {
         --cream: #f5f0e8;
@@ -78,10 +84,11 @@ textarea {
         font-weight: 300;
         color: var(--ink);
         resize: vertical;
-        min-height: 130px;
+        min-height: 150px;
         outline: none;
         transition: border-color 0.2s, box-shadow 0.2s;
         line-height: 1.6;
+        overflow: auto;
 }
 
 textarea:focus {
@@ -133,5 +140,5 @@ button:active {
 }
 
 .output-field {
-    margin-top: 0.2rem;
+        margin-top: 0.2rem;
 }
