@@ -1,15 +1,76 @@
-# COMP382_assignment_2
+# COMP 382 Assignment 2 
+# Group 9 Topic 5
+# Ishwak, Darius, Ryan, Brayden
 
-Step 1: Add new start variable with S0 -> S
--> we can simply takt the start_symbol and add it to the non-terminals, productions and the start symbol
+CFG to CNF Converter is a Python program that converts Context-Free Grammars into Chomsky Normal Form. 
 
-Step 2: remove epsilon
--> We will go through all productions in search of epsilon. we will consider epsilon to be a nullable character. This way for each non-terminal we check if it contains eplison. If it does not, we do not need to check any production at all and exit early.
--> For each production, we will need to create a new version that does not have nullable. We can use combination of all nullable cpositions and compare them with the positions.
+## Features implemented
 
-Step 3: We will remove all unit rules A -> B
--> This one is easy: we will go through each prodiction and verify whether a A -> B case exists and eliminate it directly
+- Epsilon Removal
+- Unit Production Removal
+- Terminal Normalization
+- Binary Decomposition
+- Validation
 
-Step 4: Convert to binary form
--> we will first need to detect any termins in rules of lendgth >= 2. We can create the new production under U_* such as U_i -> ui
--> Then we consider the chain of 3+ elements as it becomes long. We will cut that one as X_j
+## Conversion Process
+
+The program follows 4-steps:
+1. _step_new_start: Create a new start symbol (S0).
+2. _step_remove_epsilon: Eliminate empty productions and update rules.
+3. _step_remove_unit: Replace unit rules (A -> B) with the actual contents of B.
+4. _step_remove_form: Split long rules into binary form.
+
+## Why bother converting?
+# Simple Visual example
+![CFG vs CNF Visual 1](cfg-cnf-visuals1.png)
+![CFG vs CNF Visual 2](cfg-cnf-visuals2.png)
+
+## Project Structure
+
+```text
+COMP382_assignment_2/
+├── src/
+│   ├── grammar.py            # Base Grammar class and parsing logic
+│   ├── CGFToCNFConverter.py  # CNF conversion algorithm implementation
+│   ├── main.py               # Main entry point with test cases
+|
+├── tests/
+│   └── test_converter.py     # Unit tests for conversion steps
+├── README.md                 
+└── setup.sh                  
+```
+
+## Installation
+1. Clone the repository. 
+2. Ensure you have Python 3.x installed. 
+3. Pytest for test cases (optional)
+
+```bash
+git clone https://github.com/your-repo/COMP382_assignment_2.git
+cd COMP382_assignment_2
+```
+
+## Output
+Before
+```  
+  S0 -> S
+  A -> bA | ε
+  B -> b | S | a
+  S -> aAB | BA
+```
+Converted
+```  
+  S0 -> U_aX_1 | U_aB | BA | b | a
+  A -> U_bA | b
+  B -> b | U_aX_1 | U_aB | BA | a
+  S -> U_aX_1 | U_aB | BA | b | a
+  U_a -> a
+  U_b -> b
+  X_1 -> AB
+```  
+
+## Vlog Link
+(add here when complete)
+
+
+
