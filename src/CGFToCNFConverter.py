@@ -2,6 +2,9 @@ from grammar import Grammar
 from itertools import combinations
 class CGFToCNFConverter(Grammar):
     def convert(self):
+        if not self.start_symbol: #graceful exit
+            print("Error Cannot convert. Grammar is empty or incorrect.")
+            return None
         # Call step 1
         self._step_new_start()
         print(self)

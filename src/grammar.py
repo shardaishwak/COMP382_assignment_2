@@ -13,6 +13,9 @@ class Grammar:
         self.productions = {} # The format is {"A", [["a", "B", "b"], ["c"]]}
         self.start_symbol = None
 
+        if not grammar_string.strip(): #graceful exit
+            return False, "Error: Grammar string is empty."
+
         # Read the lines
         lines = grammar_string.strip().split("\n")
         # Consider the non-terminal names from the left side
@@ -23,6 +26,9 @@ class Grammar:
                 continue
             lhs, _ = line.split("->", 1)
             non_terminals_names.add(lhs.strip())
+
+        if not non_terminals_names: #graceful exit
+            return False, "Error: No valid production rules found (missing '->')."
 
         # Build productions, terminals, non-terminals
         for line in lines:
@@ -58,8 +64,9 @@ class Grammar:
         # check that all non-terminals are defined inside production
         for var in self.non_terminals:
             if var not in self.productions:
-                raise Exception(f"Non-terminal {var} is not defined in the grammar.")
-        return self.non_terminals, self.terminals, self.productions, self.start_symbol
+                return False, f"Non-terminal {var} is not defined in the grammar." #graceful exit
+        
+        return True, "Grammar parsed successfully." #success
     
     def valid_cnf(self, verbose = False):
         """
