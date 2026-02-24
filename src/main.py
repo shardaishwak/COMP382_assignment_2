@@ -9,19 +9,43 @@ from CGFToCNFConverter import CGFToCNFConverter
 def main():
 
     test_string = """
-    S -> aBa
-    B -> b | ε
+    S -> aAB | BA
+    A -> bA | ε
+    B -> b | S | a
     """
+
+    invalid_string = """
+    S -> aA | B
+    A -> b | ε
+    B -> C
+    """
+
+    test_string2 = """
+    S -> aA | B
+    A -> b | ε
+    B -> C
+    C -> c
+    """
+
     g = CGFToCNFConverter()
 
-    g.parse(test_string)
+    #Invalid 
+    success, message = g.parse(invalid_string)
+    if not success:
+        print(f"Error Not valid: {message}" "\n")
+    else:
+        g.convert()
+        print(g)
 
-    g.convert()
-
-    print(g)
-
-    is_valid = g.valid_cnf()
-    print(f"Is valid results {is_valid}")
+    # valid 
+    success, message = g.parse(test_string)
+    if not success:
+        print(f"Error: {message}")
+    else:
+        g.convert()
+        print(g)
+        is_valid = g.valid_cnf()
+        print(f"Is valid results: {is_valid}")
 
 if __name__ == "__main__":
     main()
