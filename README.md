@@ -22,8 +22,8 @@ The program follows 4-steps:
 
 ## Why bother converting?
 # Simple Visual example
-![CFG vs CNF Visual 1](cfg-cnf-visuals1.png)
-![CFG vs CNF Visual 2](cfg-cnf-visuals2.png)
+![CFG vs CNF Visual 1](images/CFG-CNF-visual1.png)
+![CFG vs CNF Visual 2](images/CFG-CNF-visual2.png)
 
 ## Project Structure
 
