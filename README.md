@@ -33,7 +33,11 @@ COMP382_assignment_2/
 │   ├── grammar.py            # Base Grammar class and parsing logic
 │   ├── CGFToCNFConverter.py  # CNF conversion algorithm implementation
 │   ├── main.py               # Main entry point with test cases
-|
+│   └── app/
+│       ├── index.html        # GUI entry point (PyScript-based)
+│       ├── style.css         # Stylesheet
+│       ├── script.js         # JavaScript logic for the GUI
+│       └── window.py         # Python logic for the GUI
 ├── tests/
 │   └── test_converter.py     # Unit tests for conversion steps
 ├── README.md                 
@@ -48,6 +52,28 @@ COMP382_assignment_2/
 ```bash
 git clone https://github.com/your-repo/COMP382_assignment_2.git
 cd COMP382_assignment_2
+```
+
+## Running the GUI
+
+The GUI uses [PyScript](https://pyscript.net/), which requires files to be served over HTTP — **do not open `index.html` directly in a browser** as it will not work.
+
+1. Navigate to the `src` directory:
+
+```bash
+cd src
+```
+
+2. Start a local HTTP server using Python:
+
+```bash
+python -m http.server 8000
+```
+
+3. Open your browser and go to:
+
+```
+http://localhost:8000/app/index.html
 ```
 
 ## Output
