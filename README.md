@@ -173,7 +173,7 @@ Converted
 ```  
 
 ## Vlog Link
-(add here when complete)
+[VLOG Video](https://ufv1974-my.sharepoint.com/:v:/g/personal/ishwak_sharda_student_ufv_ca/IQBx51Y0LzJcQ6G5ZfywU10PAWldlJIhv3Gw4BFVwDK7vbE?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=jLc1AY)
 
 ## References
 
