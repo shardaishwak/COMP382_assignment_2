@@ -72,5 +72,21 @@ Converted
 ## Vlog Link
 (add here when complete)
 
+## References
 
+"Chomsky Normal Form." *Tutorialspoint*, www.tutorialspoint.com/automata_theory/chomsky_normal_form.htm.
+
+"Context-Free Grammars." *Stanford University CS 103*, 2014, web.stanford.edu/class/archive/cs/cs103/cs103.1142/lectures/17/Small17.pdf.
+
+"CYK Algorithm." *Wikipedia*, Wikimedia Foundation, en.wikipedia.org/wiki/CYK_algorithm.
+
+Lange, Martin, and Hans Leiß. "To CNF or not to CNF? An Efficient Yet Presentable Version of the CYK Algorithm." *Centrum für Informations- und Sprachverarbeitung, LMU Munich*, 2009, www.cis.uni-muenchen.de/download/publikationen/09cnf.pdf.
+
+"pytest: Helps You Write Better Programs." *pytest Documentation*, docs.pytest.org/en/stable/.
+
+"PyScript." *PyScript*, Anaconda, pyscript.net/.
+
+Rogaway, Phillip. "CYK Algorithm." *UC Davis Department of Computer Science*, 2012, www.cs.ucdavis.edu/~rogaway/classes/120/winter12/CYK.pdf.
+
+Sipser, Michael. *Introduction to the Theory of Computation*. 3rd ed., Cengage Learning, 2013.
 
