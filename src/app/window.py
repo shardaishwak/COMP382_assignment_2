@@ -11,11 +11,15 @@ def convertCGFToCNF(input_string):
 
     try:
         g = CGFToCNFConverter()
-        g.parse(input_string)
+        success, message = g.parse(input_string)
+        if not success:
+            return message
+        
         g.convert()
         is_valid = g.valid_cnf()
-        return g
+        
+        return str(g)
     except Exception as e:
-        return "Invalid Grammar"
+        return f"Error: {str(e)}"
 
 window.convertCGFToCNF = convertCGFToCNF
