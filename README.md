@@ -33,7 +33,11 @@ COMP382_assignment_2/
 │   ├── grammar.py            # Base Grammar class and parsing logic
 │   ├── CGFToCNFConverter.py  # CNF conversion algorithm implementation
 │   ├── main.py               # Main entry point with test cases
-|
+│   └── app/
+│       ├── index.html        # GUI entry point (PyScript-based)
+│       ├── style.css         # Stylesheet
+│       ├── script.js         # JavaScript logic for the GUI
+│       └── window.py         # Python logic for the GUI
 ├── tests/
 │   └── test_converter.py     # Unit tests for conversion steps
 ├── README.md                 
@@ -50,82 +54,26 @@ git clone https://github.com/your-repo/COMP382_assignment_2.git
 cd COMP382_assignment_2
 ```
 
-## Usage
+## Running the GUI
 
-### Grammar
+The GUI uses [PyScript](https://pyscript.net/), which requires files to be served over HTTP — **do not open `index.html` directly in a browser** as it will not work.
 
-The `Grammar` class parses and represents a context-free grammar. Define rules using `->` with `|` to separate alternatives. The first rule's left-hand side is treated as the start symbol.
-
-```python
-from grammar import Grammar
-
-g = Grammar()
-success, message = g.parse("""
-    S -> aAB | BA
-    A -> bA | ε
-    B -> b | S | a
-""")
-
-if success:
-    print(g)
-    print(g.valid_cnf())
-```
-
-`parse()` returns a `(bool, str)` tuple indicating success and a message. It will return `False` if the grammar string is empty, has no `->` rules, or references undefined non-terminals.
-
-### CGFToCNFConverter
-
-`CGFToCNFConverter` extends `Grammar` and adds the `convert()` method, which transforms the grammar into Chomsky Normal Form in place.
-
-```python
-from CGFToCNFConverter import CGFToCNFConverter
-
-g = CGFToCNFConverter()
-success, message = g.parse("""
-    S -> ASA | aB
-    A -> B | S
-    B -> b | ε
-""")
-
-if success:
-    g.convert()
-    print(g)
-    print(g.valid_cnf())
-```
-
-You can also run individual steps if needed:
-
-```python
-g._step_new_start()
-g._step_remove_epsilon()
-g._step_remove_unit()
-g._step_remove_form()
-```
-
-## Running Tests
-
-Tests are in `tests/test_converter.py` and use [pytest](https://docs.pytest.org/en/stable/). Install it with:
+1. Navigate to the `src` directory:
 
 ```bash
-pip install pytest
+cd src
 ```
 
-Run all tests from the project root:
+2. Start a local HTTP server using Python:
 
 ```bash
-pytest tests/
+python -m http.server 8000
 ```
 
-Run with verbose output:
+3. Open your browser and go to:
 
-```bash
-pytest tests/ -v
 ```
-
-Run a specific test class:
-
-```bash
-pytest tests/test_converter.py::TestFullConversion
+http://localhost:8000/app/index.html
 ```
 
 ## Output
@@ -153,8 +101,6 @@ Converted
 ## References
 
 "Chomsky Normal Form." *Tutorialspoint*, www.tutorialspoint.com/automata_theory/chomsky_normal_form.htm.
-
-"Chomsky Normal Form." *Rochester Institute of Technology CS 380*, 2005, www.cs.rit.edu/~jmg/courses/cs380/20051/slides/7-1-chomsky.pdf.
 
 "Context-Free Grammars." *Stanford University CS 103*, 2014, web.stanford.edu/class/archive/cs/cs103/cs103.1142/lectures/17/Small17.pdf.
 
